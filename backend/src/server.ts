@@ -1,4 +1,5 @@
 import fastify, { FastifyInstance } from 'fastify';
+import ReservationRoutes from './routes/ReservationRoutes.js';
 
 export default class Server {
     private app: FastifyInstance;
@@ -13,7 +14,9 @@ export default class Server {
     }
 
     private registerRoutes() {
-        // Instanciar e registrar rotas
+        const reservationRoutes = new ReservationRoutes();
+        this.app.register(reservationRoutes.register, {prefix: '/api'});
+
     }
 
     private registerErrorHandler() {
