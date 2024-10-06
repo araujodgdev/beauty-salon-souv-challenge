@@ -1,0 +1,1 @@
+ALTER TABLE "reservations" ADD COLUMN "reservation_date" date NOT NULL;

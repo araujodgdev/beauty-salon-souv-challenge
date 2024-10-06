@@ -15,6 +15,13 @@
       "when": 1728190921829,
       "tag": "0001_bumpy_lilith",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1728233217594,
+      "tag": "0002_opposite_gunslinger",
+      "breakpoints": true
     }
   ]
 }
