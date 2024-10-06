@@ -13,6 +13,8 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "./calendar";
+import { useMutation } from "@tanstack/react-query";
+import axios from 'axios';
 
 const reservationSchema = z.object({
     name: z.string().min(3, {
@@ -38,8 +40,41 @@ export default function ReservationForm() {
         }
     });
 
-    function onSubmit(values: z.infer<typeof reservationSchema>) {
-        console.log(values)
+    const submitData = async (data: z.infer<typeof reservationSchema>) => {
+        // Convertendo a data para o formato ISO 8601
+        const [day, month, year] = data.date.toISOString().split('T')[0].split('-');
+        const formattedDate = `${year}-${month}-${day}`;
+
+        const payload = {
+            clientName: data.name,
+            clientEmail: data.email,
+            clientPhone: data.phone,
+            reservationDate: formattedDate,
+        };
+
+        return axios.post('http://localhost:8080/api/reservations', payload); // Rota API do Backend
+    }
+
+    const mutation = useMutation({
+        mutationFn: submitData,
+        onSuccess: () => {      
+            alert('Reserva realizada com sucesso!');
+            form.reset();
+        },
+        onError: () => {
+            alert('Erro ao realizar reserva');
+        }
+    })
+
+    const onSubmit = (values: z.infer<typeof reservationSchema>) => {
+        try {
+            const [day, month, year] = values.date.toISOString().split('T')[0].split('-');
+            const formattedDate = `${day}-${month}-${year}`;
+            console.log(formattedDate);
+            mutation.mutate(values);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
 

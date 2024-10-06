@@ -1,16 +1,21 @@
-import fastify, { FastifyInstance } from 'fastify';
+import fastify, { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import ReservationRoutes from './routes/ReservationRoutes.js';
+import fastifyCors from '@fastify/cors';
 
 export default class Server {
     private app: FastifyInstance;
+    private appCors: any;
 
     constructor() {
         this.app = fastify({
             logger: true,
         })
 
+        this.appCors = fastifyCors;
+
         this.registerRoutes();
         this.registerErrorHandler();
+        this.registerCors();
     }
 
     private registerRoutes() {
@@ -26,7 +31,15 @@ export default class Server {
         });
       }
 
-    public async start(port: number = 3000) {
+    private registerCors() {
+        this.app.register(this.appCors, {
+            origin: 'http://localhost:3000',
+            methods: ['GET', 'POST', 'PUT', 'DELETE'],
+            allowedHeaders: ['Content-Type', 'Authorization'],
+        });
+    }
+
+    public async start(port: number = 8080) {
         try {
             await this.app.listen({
                 port,

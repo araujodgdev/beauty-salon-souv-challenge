@@ -1,12 +1,10 @@
-import type { Metadata } from "next";
+'use client'
+
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-
-export const metadata: Metadata = {
-  title: "Beauty Salon",
-  description: "Desafio proposto durante o processo de seleção da souv!",
-};
+import { QueryClientProvider } from '@tanstack/react-query'
+import queryClient from "@/lib/query-client";
 
 export default function RootLayout({
   children
@@ -18,11 +16,13 @@ export default function RootLayout({
       <body
         className={`bg-gray-50 antialiased flex flex-col items-start justify-start min-h-screen text-dark`}
       >
-        <Header />
-        <main>
-          {children}
-        </main>
-        <Footer />
+        <QueryClientProvider client={queryClient}>
+          <Header />
+          <main>
+            {children}
+          </main>
+          <Footer />
+        </QueryClientProvider>
       </body>
     </html>
   );
