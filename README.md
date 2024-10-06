@@ -115,4 +115,7 @@ PORT=8080
 BACKEND_PUBLIC_API_URL=http://localhost:8080
 ```
 
+## Extras
 
+- [Explicação do Backend](https://youtu.be/MMaEIfA5rkY)
+- [Demonstração do Backend](https://youtu.be/jpwTscD0tbU)
