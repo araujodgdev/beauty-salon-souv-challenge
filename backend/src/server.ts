@@ -1,15 +1,20 @@
-import fastify, { FastifyInstance, FastifyPluginAsync } from 'fastify';
+import fastify, { FastifyInstance } from 'fastify';
 import ReservationRoutes from './routes/ReservationRoutes.js';
 import fastifyCors from '@fastify/cors';
 
 export default class Server {
     private app: FastifyInstance;
     private appCors: any;
+    private port: number = 8080;
 
-    constructor() {
+    constructor(port?: number) {
         this.app = fastify({
             logger: true,
         })
+
+        if (port) {
+            this.port = port;
+        }
 
         this.appCors = fastifyCors;
 
@@ -39,10 +44,10 @@ export default class Server {
         });
     }
 
-    public async start(port: number = 8080) {
+    public async start() {
         try {
             await this.app.listen({
-                port,
+                port: this.port,
             });
         } catch (error) {
             console.error(error);

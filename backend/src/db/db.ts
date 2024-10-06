@@ -4,7 +4,7 @@ import pkg from 'pg';
 const { Client } = pkg;
 
 const client = new Client({
-    connectionString:  "postgres://postgres:postgres@localhost:5432/beauty_salon"
+    connectionString:  process.env.DATABASE_URL || "postgres://postgres:postgres@localhost:5432/beauty_salon"
 })
 
 await client.connect()

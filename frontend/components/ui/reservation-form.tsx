@@ -41,6 +41,7 @@ export default function ReservationForm() {
     });
 
     const submitData = async (data: z.infer<typeof reservationSchema>) => {
+        const backendRoute = process.env.BACKEND_PUBLIC_API_URL || 'http://localhost:8080/api/reservations';
         // Convertendo a data para o formato ISO 8601
         const [day, month, year] = data.date.toISOString().split('T')[0].split('-');
         const formattedDate = `${year}-${month}-${day}`;
@@ -52,7 +53,7 @@ export default function ReservationForm() {
             reservationDate: formattedDate,
         };
 
-        return axios.post('http://localhost:8080/api/reservations', payload); // Rota API do Backend
+        return axios.post(backendRoute, payload); // Rota API do Backend
     }
 
     const mutation = useMutation({

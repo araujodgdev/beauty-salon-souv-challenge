@@ -8,6 +8,6 @@ export default defineConfig({
       prefix: 'index',
     },
     dbCredentials: {
-        url: "postgres://postgres:postgres@localhost:5432/beauty_salon"
+        url: process.env.DATABASE_URL || "postgres://postgres:postgres@localhost:5432/beauty_salon"
     }
   })
